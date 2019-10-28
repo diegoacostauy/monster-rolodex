@@ -6,43 +6,43 @@ class App extends Component {
 
   constructor() {
     super();
-    this.handleChange = this.handleChange.bind(this);
     this.state = {
-      title: 'Hello World'
+      monsters: [
+        {
+          id: '1',
+          name: 'Frankenstein'
+        },
+        {
+          id: '2',
+          name: 'Dracula'
+        },
+        {
+          id: '3',
+          name: 'Zombie'
+        }
+      ]
     };
   }
 
-  handleChange(e) {
-    e.preventDefault();
-    this.setState({
-      title: e.target.value
-    })
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(data => this.setState({
+        monsters: data
+      }));
   }
 
+
   render() {
+    const { monsters } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1>{ this.state.title }</h1>
-          <br />
-          <div>
-            <input
-              type="text"
-              value={this.state.title}
-              onChange={this.handleChange}
-            />
-          </div>
-          <br />
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Monster Rolodex App</h1>
+        {
+          monsters.map(monster => (
+            <h3 key={monster.id}>{monster.name}</h3>
+          ))
+        }
       </div>
     );
   }
