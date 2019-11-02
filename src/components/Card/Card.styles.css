@@ -12,6 +12,11 @@
   transition: transform 250ms ease-out;
 }
 
+.card-container img {
+  display: block;
+  margin: auto;
+}
+
 .card-container:hover {
   transform: scale(1.05);
 }

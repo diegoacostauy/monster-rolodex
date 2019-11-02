@@ -2,26 +2,15 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CardList } from './components/CardList/CardList.component';
+import { SearchBox } from './components/SearchBox/SearchBox.component';
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      monsters: [
-        {
-          id: '1',
-          name: 'Frankenstein'
-        },
-        {
-          id: '2',
-          name: 'Dracula'
-        },
-        {
-          id: '3',
-          name: 'Zombie'
-        }
-      ]
+      monsters: [],
+      searchField: ''
     };
   }
 
@@ -33,13 +22,24 @@ class App extends Component {
       }));
   }
 
+  handleSearch = (e) => {
+    this.setState({
+      searchField: e.target.value
+    })
+  }
 
   render() {
-    const { monsters } = this.state;
+    const { monsters, searchField } = this.state;
+
+    const monstersToRender = monsters.filter(monster => (
+        monster.name.toLowerCase().includes(searchField.toLowerCase())
+      ));
+
     return (
       <div className="App">
         <h1>Monster Rolodex App</h1>
-        <CardList monsters={this.state.monsters} />
+        <SearchBox placeholder="Search Monsters" handleSearch={this.handleSearch} searchField={searchField}/>
+        <CardList monsters={monstersToRender} />
       </div>
     );
   }
